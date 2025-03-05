@@ -5,11 +5,11 @@ import cloudinary from "../lib/cloudinary.js"
 
 
 export const signup = async (req ,res) =>{
-    const {fullName, email , password} = req.body;
+    const {fullName, email , password , userName} = req.body;
 
     try {
  
-        if(!fullName || !email || !password){
+        if(!fullName || !email || !password || !userName){
             return res.status(400).json({message:'all fields are required'});
         }
 
@@ -23,10 +23,14 @@ export const signup = async (req ,res) =>{
          const salt = await bcrypt.genSalt(10);
          const hashedPassword = await bcrypt.hash(password,salt);
 
+         
+
          const newUser = new User({
             fullName,
             email,
-            password:hashedPassword
+            password:hashedPassword,
+            userName: "@"+userName,
+
          })
 
          if(newUser){
@@ -39,6 +43,7 @@ export const signup = async (req ,res) =>{
                 fullName:newUser.fullName,
                 email:newUser.email,
                 profilePic:newUser.profilePic,
+                userName: newUser.userName,
 
             })
          }else{
@@ -53,9 +58,12 @@ export const signup = async (req ,res) =>{
 };
 
 export const login = async(req, res) =>{
- const {email , password } = req.body;
+ const {identifier , password } = req.body;
  try {
-    const user = await User.findOne({email});
+    const user = await User.findOne({
+        $or: [{ email: identifier }, { userName: identifier }]
+      });
+      
 
     if(!user){
         return res.status(400).json({message :"Invalide credentials"});
@@ -72,6 +80,7 @@ export const login = async(req, res) =>{
         fullName:user.fullName,
         email:user.email,
         profilePic:user.profilePic,
+        userName: user.userName,
     })
  } catch (error) {
     console.log("error in the login controller" , error.message);

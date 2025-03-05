@@ -45,7 +45,7 @@ const LoginPage = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="form-control">
+          <div className="form-control">
               <label className="label">
                 <span className="label-text font-medium">Email</span>
               </label>
@@ -55,7 +55,7 @@ const LoginPage = () => {
                 </div>
                 <input
                   type="email"
-                  className={`input input-bordered w-full pl-10`}
+                  className={"input input-bordered w-full pl-10"}
                   placeholder="you@example.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
