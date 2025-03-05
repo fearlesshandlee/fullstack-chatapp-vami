@@ -14,7 +14,11 @@ const ChatHeader = () => {
           <div className="flex items-center">
   <div className="relative w-12 h-12">
     <img 
-      src={user.profilePic ||"/avatar.png"} 
+
+      
+
+      src={selectedUser.profilePic || "/avatar.png"} 
+
       alt={"User Avatar"} 
       className="w-full h-full object-cover rounded-full border-2 border-gray-300 shadow-md"
     />
