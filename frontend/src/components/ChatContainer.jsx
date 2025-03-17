@@ -21,7 +21,11 @@ const ChatContainer = () => {
 
   useEffect(() => {
     getMessages(selectedUser._id);
-    subscribeToMessages();
+    if (useAuthStore.getState().socket) {
+      subscribeToMessages();
+  } else {
+      console.log("Socket not connected yet, waiting...");
+  }
     return () => unsubscribeFromMessages();
     
   }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
